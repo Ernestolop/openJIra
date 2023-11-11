@@ -1,8 +1,7 @@
 import Head from "next/head";
 
 import { Box } from "@mui/material";
-
-import { Navbar } from "@/components/ui";
+import { Navbar, Drawer } from "@/components/ui";
 
 const Layout = ({title, description, keywords, children}) => {
     return (
@@ -16,6 +15,7 @@ const Layout = ({title, description, keywords, children}) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Navbar />
+            <Drawer />
             <Box sx={{ padding: "10px 20px" }}>
                 {children}
             </Box>
