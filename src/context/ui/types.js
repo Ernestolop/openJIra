@@ -1,0 +1,2 @@
+export const UI_OPEN_DRAWER = 'UI_OPEN_DRAWER';
+export const UI_CLOSE_DRAWER = 'UI_CLOSE_DRAWER';
