@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { TextField, Box, Button } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
+
+import { EntriesContext } from "@/context/entries";
+import {  UIContext } from "@/context/ui";
+
 
 const NewEntry = () => {
 
-    const [isAdding, setIsAdding] = useState(false);
     const [inputVale, setInputVale] = useState('');
     const [touched, setTouched] = useState(false);
+    const { addNewEntry } = useContext(EntriesContext); 
+    const { formAddingTaskOpen, openFormAddingTask, closeFormAddingTask } = useContext(UIContext);
 
     const handleTextChanged = e => {
         setInputVale(e.target.value);
@@ -17,7 +21,10 @@ const NewEntry = () => {
 
     const handleSave = () => {
         if (inputVale.length === 0) return;
-        alert('Guardando');
+        addNewEntry(inputVale);
+        closeFormAddingTask();
+        setInputVale('');
+        setTouched(false);
     }
 
     return (
@@ -26,7 +33,7 @@ const NewEntry = () => {
             paddingX: 1
         }}>
             {
-                isAdding ? (
+                formAddingTaskOpen ? (
                     <>
                         <TextField
                             fullWidth
@@ -48,7 +55,7 @@ const NewEntry = () => {
                         <Box display='flex' justifyContent='space-between'>
                             <Button
                                 variant="text"
-                                onClick={() => setIsAdding(false)}
+                                onClick={() => closeFormAddingTask()}
                             >Cancelar</Button>
                             <Button
                                 variant="outlined"
@@ -63,7 +70,7 @@ const NewEntry = () => {
                         variant="outlined"
                         fullWidth
                         endIcon={<AddCircleOutlineIcon />}
-                        onClick={() => setIsAdding(true)}
+                        onClick={() => openFormAddingTask()}
                     >Agregar Tarea</Button>
                 )
             }

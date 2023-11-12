@@ -1,15 +1,34 @@
+import { useContext } from 'react';
+
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 
-const EntryCard = ({entry}) => {
+import { UIContext } from '@/context/ui';
+
+const EntryCard = ({ entry }) => {
+
+    const { setIsDragging } = useContext(UIContext);
+
+    const handleDragStart = (e, id) => {
+        setIsDragging(true);
+        e.dataTransfer.setData('id', id);
+    }
+
+    const handleDragOver = e => {
+        setIsDragging(false);
+    }
+
     return (
         <Card
             sx={{
                 marginBottom: 1,
             }}
+            draggable
+            onDragStart={e => handleDragStart(e, entry._id)}
+            onDragEnd={handleDragOver}
         >
             <CardActionArea>
                 <CardContent>
-                    <Typography variant="h5" sx={{ whiteSpace: 'pre-line' }} >{entry.description    }</Typography>
+                    <Typography variant="h5" sx={{ whiteSpace: 'pre-line' }} >{entry.description}</Typography>
                 </CardContent>
                 <CardActions
                     sx={
