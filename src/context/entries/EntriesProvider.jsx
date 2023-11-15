@@ -5,26 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { EntriesContext, entriesReducer, ADD_ENTRY, UPDATE_ENTRY } from ".";
 
 const ENTRIES_INITIAL_STATE = {
-    entries: [
-        {
-            _id: uuidv4(),
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-            status: 'pending',
-            createAt: Date.now(),
-        },
-        {
-            _id: uuidv4(),
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-            status: 'in-progress',
-            createAt: Date.now(),
-        },
-        {
-            _id: uuidv4(),
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-            status: 'finished',
-            createAt: Date.now(),
-        }
-    ],
+    entries: []
 }
 
 const EntriesProvider = ({ children }) => {
@@ -41,7 +22,7 @@ const EntriesProvider = ({ children }) => {
     }
 
     const updateEntry = entry => {
-        dispatch({ type: UPDATE_ENTRY, payload: entry  })
+        dispatch({ type: UPDATE_ENTRY, payload: entry })
     }
 
     return (
