@@ -1,15 +1,26 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { EntriesContext, entriesReducer, ADD_ENTRY, UPDATE_ENTRY } from ".";
+import { EntriesContext, entriesReducer, ADD_ENTRY, UPDATE_ENTRY, REFRESH_ENTRIES } from ".";
+import { entriesApi } from '@/apis';
 
 const ENTRIES_INITIAL_STATE = {
     entries: []
 }
 
 const EntriesProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE)
+    const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE);
+
+    const refresEntries = async () => {
+        const {data} = await entriesApi.get('/entries');
+        dispatch({ type: REFRESH_ENTRIES, payload: data });
+    }
+
+    useEffect(() => {
+        refresEntries();
+    }, [])
+    
 
     const addNewEntry = (description) => {
         const entry = {

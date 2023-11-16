@@ -1,7 +1,12 @@
-import { ADD_ENTRY, UPDATE_ENTRY } from '.'
+import { ADD_ENTRY, REFRESH_ENTRIES, UPDATE_ENTRY } from '.'
 
 const entriesReducer = (state, action) => {
     switch (action.type) {
+        case REFRESH_ENTRIES:
+            return {
+                ...state,
+                entries: [...action.payload]
+            }
         case ADD_ENTRY:
             return {
                 ...state,
