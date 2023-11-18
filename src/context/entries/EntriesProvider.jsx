@@ -1,7 +1,5 @@
 import { useEffect, useReducer } from 'react'
 
-import { v4 as uuidv4 } from 'uuid'
-
 import { EntriesContext, entriesReducer, ADD_ENTRY, UPDATE_ENTRY, REFRESH_ENTRIES } from ".";
 import { entriesApi } from '@/apis';
 
@@ -13,27 +11,31 @@ const EntriesProvider = ({ children }) => {
     const [state, dispatch] = useReducer(entriesReducer, ENTRIES_INITIAL_STATE);
 
     const refresEntries = async () => {
-        const {data} = await entriesApi.get('/entries');
+        const { data } = await entriesApi.get('/entries');
         dispatch({ type: REFRESH_ENTRIES, payload: data });
     }
 
     useEffect(() => {
         refresEntries();
     }, [])
-    
 
-    const addNewEntry = (description) => {
-        const entry = {
-            _id: uuidv4(),
-            description,
-            status: 'pending',
-            createAt: Date.now(),
+
+    const addNewEntry = async description => {
+        try {
+            const { data } = await entriesApi.post('/entries', { description })
+            dispatch({ type: ADD_ENTRY, payload: data })
+        } catch (error) {
+            console.log(error);
         }
-        dispatch({ type: ADD_ENTRY, payload: entry })
     }
 
-    const updateEntry = entry => {
-        dispatch({ type: UPDATE_ENTRY, payload: entry })
+    const updateEntry = async ({ _id, description, status }) => {
+        try {
+            const { data } = await entriesApi.put(`/entries/${_id}`, { _id, description, status });
+            dispatch({ type: UPDATE_ENTRY, payload: data })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
