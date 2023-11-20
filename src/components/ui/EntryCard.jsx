@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 
 import { UIContext } from '@/context/ui';
@@ -7,6 +9,7 @@ import { UIContext } from '@/context/ui';
 const EntryCard = ({ entry }) => {
 
     const { setIsDragging } = useContext(UIContext);
+    const useRoute = useRouter();
 
     const handleDragStart = (e, id) => {
         setIsDragging(true);
@@ -17,6 +20,10 @@ const EntryCard = ({ entry }) => {
         setIsDragging(false);
     }
 
+    const handleClick = e => {
+        useRoute.push(`/entries/${entry._id}`);
+    }
+
     return (
         <Card
             sx={{
@@ -25,6 +32,7 @@ const EntryCard = ({ entry }) => {
             draggable
             onDragStart={e => handleDragStart(e, entry._id)}
             onDragEnd={handleDragOver}
+            onClick={handleClick}
         >
             <CardActionArea>
                 <CardContent>
