@@ -5,6 +5,7 @@ import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import { Layout } from '@/components/layouts';
 import { dbEntries } from '@/database';
 import { EntriesContext } from '@/context/entries';
+import { dateFunctions } from '@/utils';
 const validStatus = ['pending', 'in-progress', 'finished'];
 
 const EntryPage = ({ entry }) => {
@@ -32,7 +33,7 @@ const EntryPage = ({ entry }) => {
             ...entry,
             description: inputValue,
             status
-        });
+        }, true);
         setSaving(false);
     }
 
@@ -51,7 +52,7 @@ const EntryPage = ({ entry }) => {
                     <Card>
                         <CardHeader
                             title="Entrada:"
-                            subheader={"creada hace ... minutos"}
+                            subheader={`Creado hace ${dateFunctions.getFormatDistanceToNow(entry.createAt)}`}
                         />
                         <CardContent>
                             <TextField

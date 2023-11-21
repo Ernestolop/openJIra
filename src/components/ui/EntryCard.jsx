@@ -6,7 +6,11 @@ import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui
 
 import { UIContext } from '@/context/ui';
 
+import { dateFunctions } from '@/utils';
+
 const EntryCard = ({ entry }) => {
+
+    console.log(entry.createAt);
 
     const { setIsDragging } = useContext(UIContext);
     const useRoute = useRouter();
@@ -46,7 +50,7 @@ const EntryCard = ({ entry }) => {
                             paddingRight: 2,
                         }
                     }>
-                    <Typography variant="body2">Hace 30 minutos</Typography>
+                    <Typography variant="body2">{dateFunctions.getFormatDistanceToNow(entry.createAt)}</Typography>
                 </CardActions>
             </CardActionArea>
         </Card>
